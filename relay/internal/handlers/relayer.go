@@ -33,7 +33,17 @@ func NewRelayHandler(cfg *config.Config) *RelayHandler {
 }
 
 func (h *RelayHandler) HandleRelay(w http.ResponseWriter, r *http.Request) {
+	// CORS headers
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	w.Header().Set("Content-Type", "application/json")
+
+	// Handle preflight requests
+	if r.Method == http.MethodOptions {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
 
 	var req RelayRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
