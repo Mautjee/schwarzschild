@@ -3,9 +3,6 @@ FROM node:22-alpine AS builder
 
 WORKDIR /app
 
-# Install yarn
-RUN npm install -g yarn
-
 # Copy package files
 COPY package.json yarn.lock ./
 
