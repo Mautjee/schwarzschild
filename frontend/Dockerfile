@@ -29,4 +29,4 @@ COPY package.json ./
 EXPOSE 3547
 
 # Serve the dist folder using bun
-CMD ["bun", "run", "--", "bunx", "serve", "-s", "dist", "-l", "3000"]
+CMD ["bun", "run", "--", "bunx", "serve", "-s", "dist", "-l", "3547"]
