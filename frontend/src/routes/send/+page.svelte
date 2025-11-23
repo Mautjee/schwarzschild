@@ -73,12 +73,12 @@
       burnAddress = getBurnAddress(pubKeyX as Hex, selectedAddress as Address);
       const stealthAddy = await getStealthAddy(stealthMetaAddress as string);
       ephemeralPublicKey = stealthAddy.ephemeralPublicKey;
-      console.log({ burnAddress });
+      console.log({ burnAddress, ephemeralPublicKey });
     });
   });
 
   function handleBack() {
-    router.navigate("home");
+    navigateHome();
   }
 
   function handleWalletSelect(

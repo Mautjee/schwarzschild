@@ -4,8 +4,11 @@
 	import { Alert, AlertTitle, AlertDescription } from '$lib/components/ui/alert';
 	import CopyableText from './CopyableText.svelte';
 	import { fetchStealthBurnLogs } from '$lib/utils/contractLogs';
-	import type { Address } from 'viem';
+	import { recoverPublicKey, stringToHex, toHex, type Address, type Hex } from 'viem';
 	import { ExternalLink, Loader2 } from '@lucide/svelte';
+	import { getStealthMetaAddress } from '$lib/stealth/prepare-keys'
+	import { connectedAccount, currentProvider, signMessage } from '$lib/providers'
+  import { filterBurns } from '$lib/stealth/index-burns';
 
 	interface Props {
 		totalBalance: string;
@@ -20,6 +23,14 @@
 	let logs = $state<any[]>([]);
 	let logsLoading = $state(false);
 	let logsError = $state<string | null>(null);
+
+	let spendingPrivateKey: string | null = null
+	let viewingPrivateKey: string | null = null
+
+	let spendingPublicKey: string | null = null
+	let viewingPublicKey: string | null = null
+
+	let userPublicKey: string | null = null
 
 	const CONTRACT_ADDRESS = (import.meta.env.VITE_CONTRACT_ADDRESS ||
 		'0x43208AA38104d08EC099d55F709dd46E52ea619C') as Address;
@@ -36,6 +47,20 @@
 			logsLoading = true;
 			logsError = null;
 			logs = await fetchStealthBurnLogs(CONTRACT_ADDRESS, 50);
+
+			if (!viewingPublicKey || !spendingPublicKey || !userPublicKey || !viewingPrivateKey || !spendingPrivateKey) {
+				throw new Error('No keys found');
+			}
+
+			const filteredLogs = filterBurns(logs, {
+				viewingPublicKey,
+				spendingPublicKey,
+				userPublicKey,
+				viewingPrivateKey,
+				spendingPrivateKey,
+			});
+
+			console.log(filteredLogs);
 		} catch (error) {
 			logsError = error instanceof Error ? error.message : 'Failed to load logs';
 			console.error('Error loading logs:', error);
@@ -58,14 +83,64 @@
 		return `https://sepolia.etherscan.io/tx/${txHash}`;
 	}
 
+	let isUnlocked = $state(false);
+
+	const generateStealthMetaAddress = async (message: string = "Stealth Meta Address") => {
+    if (!$connectedAccount) {
+        console.error('No account connected')
+        return
+    }
+
+    if (!$currentProvider) {
+        console.error('No provider available')
+        return
+    }
+
+    const signature = await signMessage(message, $connectedAccount, $currentProvider)
+
+    const publicKey = await recoverPublicKey({
+        hash: stringToHex(message),
+        signature: signature as Hex
+    })
+
+    try {
+        const result = await getStealthMetaAddress(toHex(signature), message)
+
+        spendingPrivateKey = toHex(result.spendingKey)
+        viewingPrivateKey = toHex(result.viewingKey)
+        spendingPublicKey = result.spendingPublicKey
+        viewingPublicKey = result.viewingPublicKey
+        userPublicKey = publicKey
+
+		isUnlocked = true;
+
+    } catch (error) {
+		isUnlocked = false;
+        console.error('Error generating stealth meta address:', error)
+        throw error
+    }
+}
+
 	// Load logs when component mounts
 	$effect(() => {
-		loadLogs();
+		if (isUnlocked) {
+			loadLogs();
+		}
 	});
+
+	const authBySigningMessage = async () => {
+		await generateStealthMetaAddress();
+	}
+
 </script>
 
 <div class="space-y-4">
-	<Card>
+
+	{#if !isUnlocked}
+		<Button class="w-full" onclick={authBySigningMessage}>Unlock</Button>
+	{/if}
+
+	<Card if={isUnlocked}>
 		<CardHeader>
 			<CardTitle>Your Balance</CardTitle>
 			<CardDescription>

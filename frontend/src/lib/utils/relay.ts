@@ -22,6 +22,12 @@ export async function callRelay(
     throw new Error("VITE_RELAY_URL environment variable is not set");
   }
 
+  // Convert 33-byte compressed key to 32-byte x-coordinate for Solidity bytes32
+  let ephemeralPublicKeyBytes32 = ephemeralPublicKey;
+  if (ephemeralPublicKey.startsWith('0x') && ephemeralPublicKey.length === 68) {
+    ephemeralPublicKeyBytes32 = '0x' + ephemeralPublicKey.slice(4);
+  }
+
   try {
     const response = await fetch(`${relayUrl}/relay`, {
       method: "POST",
@@ -29,7 +35,7 @@ export async function callRelay(
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        ephemeralPublicKey,
+        ephemeralPublicKey: ephemeralPublicKeyBytes32,
         burnAddress,
       }),
     });
