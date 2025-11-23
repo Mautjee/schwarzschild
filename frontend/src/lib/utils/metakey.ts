@@ -23,7 +23,7 @@ export function generateMetakey(): string {
  */
 export function isValidMetakey(metakey: string): boolean {
   // Should be 32 characters of hex
-  return /^[a-f0-9]{32}$/.test(metakey.toLowerCase());
+  return /^st:eth:(0x)?[0-9a-fA-F]+$/.test(metakey.toLowerCase());
 }
 
 /**
@@ -32,37 +32,37 @@ export function isValidMetakey(metakey: string): boolean {
  * @returns The metakey if it exists, or null
  */
 export async function getMetakey(addressOrEns: string): Promise<string | null> {
-	try {
-		// Resolve to ensure we're working with a valid address/ENS
-		const resolved = await resolveWalletAddress(addressOrEns);
-		if (!resolved) {
-			console.warn(`Could not resolve address: ${addressOrEns}`);
-			return null;
-		}
+  try {
+    // Resolve to ensure we're working with a valid address/ENS
+    const resolved = await resolveWalletAddress(addressOrEns);
+    if (!resolved) {
+      console.warn(`Could not resolve address: ${addressOrEns}`);
+      return null;
+    }
 
-		// If input was a raw address, do reverse lookup to get ENS name
-		let queryTarget = addressOrEns;
-		if (isAddress(addressOrEns)) {
-			const ensName = await getEnsName(resolved);
-			if (!ensName) {
-				console.warn(`No ENS name found for address: ${addressOrEns}`);
-				return null;
-			}
-			queryTarget = ensName;
-		}
+    // If input was a raw address, do reverse lookup to get ENS name
+    let queryTarget = addressOrEns;
+    if (isAddress(addressOrEns)) {
+      const ensName = await getEnsName(resolved);
+      if (!ensName) {
+        console.warn(`No ENS name found for address: ${addressOrEns}`);
+        return null;
+      }
+      queryTarget = ensName;
+    }
 
-		// Try to get metakey from ENS record using the ENS name
-		const metakey = await getEnsText(queryTarget, METAKEY_RECORD_KEY);
+    // Try to get metakey from ENS record using the ENS name
+    const metakey = await getEnsText(queryTarget, METAKEY_RECORD_KEY);
 
-		if (metakey && isValidMetakey(metakey)) {
-			return metakey;
-		}
+    if (metakey) {
+      return metakey;
+    }
 
-		return null;
-	} catch (error) {
-		console.error(`Failed to get metakey for ${addressOrEns}:`, error);
-		return null;
-	}
+    return null;
+  } catch (error) {
+    console.error(`Failed to get metakey for ${addressOrEns}:`, error);
+    return null;
+  }
 }
 
 /**
@@ -85,16 +85,15 @@ export async function hasMetakey(addressOrEns: string): Promise<boolean> {
  */
 export async function setMetakey(
   addressOrEns: string,
-  metakey?: string,
+  metaValue: string,
   resolverAddress?: Address,
 ): Promise<{ hash: string; metakey: string }> {
   try {
-    // Generate metakey if not provided
-    const metakeyToSet = metakey || generateMetakey();
+    const metakeyToSet = metaValue;
 
-    if (!isValidMetakey(metakeyToSet)) {
-      throw new Error(`Invalid metakey format: ${metakeyToSet}`);
-    }
+    // if (!isValidMetakey(metakeyToSet)) {
+    //   throw new Error(`Invalid metakey format: ${metakeyToSet}`);
+    // }
 
     // Set the metakey in ENS records
     const hash = await setEnsText(
@@ -140,7 +139,7 @@ export async function getOrCreateMetakey(
     // Generate and set new metakey
     const { hash, metakey } = await setMetakey(
       addressOrEns,
-      undefined,
+      "metaKey",
       resolverAddress,
     );
 

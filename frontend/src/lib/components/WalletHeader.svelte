@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
-	import { connectedAccount, connectedProvider } from '$lib/providers';
+	import { connectedAccount, connectedProvider, disconnectProvider } from '$lib/providers';
 	import { getEnsName } from '$lib/utils/wallet';
 	import type { Address } from 'viem';
 	import { Wallet, LogOut } from '@lucide/svelte';
@@ -37,6 +37,7 @@
 	}
 
 	function handleDisconnect() {
+		disconnectProvider();
 		displayName = null;
 		onDisconnect?.();
 	}

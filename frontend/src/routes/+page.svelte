@@ -1,29 +1,19 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
 	import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card';
-	import { router } from '$lib/store/router';
+	import { walletModal } from '$lib/store/walletModal';
+	import { navigateSend, navigateReceive } from '$lib/utils/navigation';
 	import WalletConnectModal from '$lib/components/WalletConnectModal.svelte';
 	import WalletHeader from '$lib/components/WalletHeader.svelte';
 	import TransactionHistory from '$lib/components/TransactionHistory.svelte';
 
-	let walletModalOpen = $state(false);
-
-	function handleSend() {
-		router.navigate('send');
-	}
-
-	function handleReceive() {
-		router.navigate('receive');
-	}
-
 	function handleWalletConnect() {
-		walletModalOpen = false;
-		// Optionally navigate to receive or perform other actions
+		walletModal.close();
 	}
 </script>
 
 <main class="min-h-screen flex flex-col items-center justify-center p-4 bg-background">
-	<WalletHeader onOpenWalletModal={() => (walletModalOpen = true)} />
+	<WalletHeader onOpenWalletModal={() => walletModal.open()} />
 
 	<div class="w-full max-w-2xl">
 		<div class="text-center mb-12">
@@ -45,7 +35,7 @@
 						Search for a wallet address or ENS name, verify their MetaKey, and send them crypto securely.
 					</p>
 					<Button
-						onclick={handleSend}
+						onclick={navigateSend}
 						class="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
 					>
 						Send Crypto
@@ -66,7 +56,7 @@
 						Connect your wallet, create a MetaKey if needed, and view your total balance across all tokens.
 					</p>
 					<Button
-						onclick={handleReceive}
+						onclick={navigateReceive}
 						class="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground"
 					>
 						Receive Crypto
@@ -81,8 +71,11 @@
 </main>
 
 <WalletConnectModal
-	open={walletModalOpen}
-	onOpenChange={(open) => (walletModalOpen = open)}
+	open={$walletModal}
+	onOpenChange={(open) => {
+		if (open) walletModal.open();
+		else walletModal.close();
+	}}
 	onConnect={handleWalletConnect}
 />
 
