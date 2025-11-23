@@ -1,6 +1,6 @@
-import { type Address } from "viem";
+import { type Address, isAddress } from "viem";
 import { getEnsText, setEnsText } from "../ens";
-import { resolveWalletAddress } from "./wallet";
+import { resolveWalletAddress, getEnsName } from "./wallet";
 
 const METAKEY_RECORD_KEY = "metaKey";
 
@@ -43,11 +43,22 @@ export async function getMetakey(addressOrEns: string): Promise<string | null> {
       return null;
     }
 
-    // Try to get metakey from ENS record
-    const metakey = await getEnsText(addressOrEns, METAKEY_RECORD_KEY);
+    // If input was a raw address, do reverse lookup to get ENS name
+    let queryTarget = addressOrEns;
+    if (isAddress(addressOrEns)) {
+      const ensName = await getEnsName(resolved);
+      if (!ensName) {
+        console.warn(`No ENS name found for address: ${addressOrEns}`);
+        return null;
+      }
+      queryTarget = ensName;
+    }
+
+    // Try to get metakey from ENS record using the ENS name
+    const metakey = await getEnsText(queryTarget, METAKEY_RECORD_KEY);
     // const metakey = "st:eth:0x02aa7aabe0b2181fc045340bb4b28b6b782f1c491469cb9c1fb9a529c8db584d0602586025073d5256587f9dbebd68ec7aedc3ad609ea6061cb347aeb031dd4a51920446c15ddf7274b58da5308cdca762931d4b837953afc06a28cdcadfe5f2bd973cd81f354ac7ac63b8b5b4a52fab05aba76e05b38f33edd06e6bc1d7c74b0c596c"
 
-    if (metakey && isValidMetakey(metakey)) {
+    if (metakey) {
       return metakey;
     }
 
@@ -78,16 +89,15 @@ export async function hasMetakey(addressOrEns: string): Promise<boolean> {
  */
 export async function setMetakey(
   addressOrEns: string,
-  metakey?: string,
+  metaValue: string,
   resolverAddress?: Address,
 ): Promise<{ hash: string; metakey: string }> {
   try {
-    // Generate metakey if not provided
-    const metakeyToSet = metakey || generateMetakey();
+    const metakeyToSet = metaValue;
 
-    if (!isValidMetakey(metakeyToSet)) {
-      throw new Error(`Invalid metakey format: ${metakeyToSet}`);
-    }
+    // if (!isValidMetakey(metakeyToSet)) {
+    //   throw new Error(`Invalid metakey format: ${metakeyToSet}`);
+    // }
 
     // Set the metakey in ENS records
     const hash = await setEnsText(
@@ -133,7 +143,7 @@ export async function getOrCreateMetakey(
     // Generate and set new metakey
     const { hash, metakey } = await setMetakey(
       addressOrEns,
-      undefined,
+      "metaKey",
       resolverAddress,
     );
 

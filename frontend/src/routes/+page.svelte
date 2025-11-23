@@ -1,37 +1,19 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
 	import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card';
-	import { router } from '$lib/store/router';
+	import { walletModal } from '$lib/store/walletModal';
+	import { navigateSend, navigateReceive } from '$lib/utils/navigation';
 	import WalletConnectModal from '$lib/components/WalletConnectModal.svelte';
-	import { Wallet } from '@lucide/svelte';
-
-	let walletModalOpen = $state(false);
-
-	function handleSend() {
-		router.navigate('send');
-	}
-
-	function handleReceive() {
-		router.navigate('receive');
-	}
+	import WalletHeader from '$lib/components/WalletHeader.svelte';
+	import TransactionHistory from '$lib/components/TransactionHistory.svelte';
 
 	function handleWalletConnect() {
-		walletModalOpen = false;
-		// Optionally navigate to receive or perform other actions
+		walletModal.close();
 	}
 </script>
 
 <main class="min-h-screen flex flex-col items-center justify-center p-4 bg-background">
-	<div class="absolute top-4 right-4">
-		<Button
-			onclick={() => (walletModalOpen = true)}
-			variant="outline"
-			class="gap-2"
-		>
-			<Wallet size={18} />
-			Connect Wallet
-		</Button>
-	</div>
+	<WalletHeader onOpenWalletModal={() => walletModal.open()} />
 
 	<div class="w-full max-w-2xl">
 		<div class="text-center mb-12">
@@ -39,7 +21,7 @@
 			<p class="text-lg text-muted-foreground">Send and receive crypto with MetaKeys</p>
 		</div>
 
-		<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
 			<!-- Send Card -->
 			<Card class="flex flex-col h-full hover:shadow-lg transition-shadow">
 				<CardHeader class="flex-1">
@@ -53,7 +35,7 @@
 						Search for a wallet address or ENS name, verify their MetaKey, and send them crypto securely.
 					</p>
 					<Button
-						onclick={handleSend}
+						onclick={navigateSend}
 						class="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
 					>
 						Send Crypto
@@ -74,7 +56,7 @@
 						Connect your wallet, create a MetaKey if needed, and view your total balance across all tokens.
 					</p>
 					<Button
-						onclick={handleReceive}
+						onclick={navigateReceive}
 						class="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground"
 					>
 						Receive Crypto
@@ -82,12 +64,18 @@
 				</CardContent>
 			</Card>
 		</div>
+
+		<!-- Transaction History -->
+		<TransactionHistory />
 	</div>
 </main>
 
 <WalletConnectModal
-	open={walletModalOpen}
-	onOpenChange={(open) => (walletModalOpen = open)}
+	open={$walletModal}
+	onOpenChange={(open) => {
+		if (open) walletModal.open();
+		else walletModal.close();
+	}}
 	onConnect={handleWalletConnect}
 />
 

@@ -1,181 +1,142 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button';
-	import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card';
-	import { Alert, AlertTitle, AlertDescription } from '$lib/components/ui/alert';
-	import { router } from '$lib/store/router';
-	import type { Address } from 'viem';
-	import { ArrowLeft, Check } from '@lucide/svelte';
-	import Copy from '@lucide/svelte/icons/copy';
+  import { Card, CardContent } from "$lib/components/ui/card";
+  import { Alert, AlertTitle, AlertDescription } from "$lib/components/ui/alert";
+  import { Button } from "$lib/components/ui/button";
+  import PageHeader from "$lib/components/PageHeader.svelte";
+  import WalletHeader from "$lib/components/WalletHeader.svelte";
+  import WalletConnectModal from "$lib/components/WalletConnectModal.svelte";
+  import MetakeyFlow from "$lib/components/flows/MetakeyFlow.svelte";
+  import BalanceDisplay from "$lib/components/BalanceDisplay.svelte";
+  import { walletModal } from "$lib/store/walletModal";
+  import { navigateHome } from "$lib/utils/navigation";
+  import { getBalanceForAddress } from "$lib/utils/balance";
+  import { getMetakey } from "$lib/utils/metakey";
+  import { formatAddressForDisplay } from "$lib/utils/wallet";
+  import type { Address } from "viem";
 
-	let currentStep = $state<'setup' | 'display'>('setup');
-	let connectedAddress: Address | null = $state(null);
-	let metakeyValue: string | null = $state(null);
-	let totalBalance = $state('0');
-	let isLoading = $state(false);
-	let error: string | null = $state(null);
-	let copiedIndex = $state(-1);
+  type ReceiveStep = "setup" | "create-metakey" | "display";
 
-	function handleBack() {
-		router.navigate('home');
-	}
+  let currentStep = $state<ReceiveStep>("setup");
+  let connectedAddress: Address | null = $state(null);
+  let metakeyValue: string | null = $state(null);
+  let totalBalance = $state("0");
+  let isLoading = $state(false);
+  let error: string | null = $state(null);
 
-	async function initializeReceive() {
-		isLoading = true;
-		error = null;
+  async function loadReceiveData() {
+    isLoading = true;
+    error = null;
 
-		try {
-			// This will be connected to actual wallet connection logic
-			// For now, show the setup placeholder
-			connectedAddress = null;
-		} catch (err) {
-			error = `Error: ${err instanceof Error ? err.message : 'Unknown error'}`;
-		} finally {
-			isLoading = false;
-		}
-	}
+    try {
+      if (!window.ethereum) {
+        error = "No wallet connected";
+        return;
+      }
 
-	function copyToClipboard(text: string, index: number) {
-		navigator.clipboard.writeText(text);
-		copiedIndex = index;
-		setTimeout(() => {
-			copiedIndex = -1;
-		}, 2000);
-	}
+      const accounts = await window.ethereum.request({
+        method: "eth_accounts",
+      });
+      if (!accounts || accounts.length === 0) {
+        error = "No wallet connected";
+        return;
+      }
 
-	// Initialize on component mount
-	$effect(() => {
-		initializeReceive();
-	});
+      const address = accounts[0] as Address;
+      connectedAddress = address;
+
+      // Check if address has ENS name
+      const ensName = await formatAddressForDisplay(address, true);
+      if (ensName === address) {
+        error = "Please register this address on ENS to receive payments";
+        currentStep = "setup";
+        return;
+      }
+
+      // Get balance
+      const balanceData = await getBalanceForAddress(address);
+      totalBalance = balanceData?.formatted || "0";
+
+      // Check if ENS already has MetaKey record
+      metakeyValue = await getMetakey(ensName);
+
+      // If MetaKey exists, show display. If not, go to creation step
+      currentStep = metakeyValue ? "display" : "create-metakey";
+    } catch (err) {
+      error = `Error: ${err instanceof Error ? err.message : "Unknown error"}`;
+    } finally {
+      isLoading = false;
+    }
+  }
+
+  function handleMetakeyCreated(metakey: string) {
+    metakeyValue = metakey;
+    currentStep = "display";
+  }
+
+  // Initialize on component mount
+  $effect(() => {
+    loadReceiveData();
+  });
 </script>
 
 <main class="min-h-screen bg-background p-4">
-	<div class="max-w-2xl mx-auto">
-		<!-- Header -->
-		<div class="flex items-center gap-3 mb-8">
-			<Button
-				onclick={handleBack}
-				variant="outline"
-				size="icon"
-				class="rounded-full"
-			>
-				<ArrowLeft size={18} />
-			</Button>
-			<div>
-				<h1 class="text-3xl font-bold">Receive Crypto</h1>
-				<p class="text-muted-foreground text-sm">
-					{currentStep === 'setup' ? 'Step 1: Connect Wallet' : 'Step 2: View Balance'}
-				</p>
-			</div>
-		</div>
+  <WalletHeader onOpenWalletModal={() => walletModal.open()} />
 
-		<!-- Progress indicator -->
-		<div class="flex gap-2 mb-8">
-			<div class={`h-1 flex-1 rounded-full transition-colors ${currentStep === 'setup' ? 'bg-primary' : 'bg-muted'}`}></div>
-			<div class={`h-1 flex-1 rounded-full transition-colors ${currentStep === 'display' ? 'bg-primary' : 'bg-muted'}`}></div>
-		</div>
+  <div class="max-w-2xl mx-auto">
+    <PageHeader
+      title="Receive Crypto"
+      subtitle={isLoading ? "Loading..." : "View your balance and MetaKey"}
+      onBack={navigateHome}
+    />
 
-		<!-- Content -->
-		{#if currentStep === 'setup'}
-			<Card>
-				<CardHeader>
-					<CardTitle>Connect Your Wallet</CardTitle>
-					<CardDescription>
-						Connect your wallet to set up a MetaKey and view your balance.
-					</CardDescription>
-				</CardHeader>
-				<CardContent class="space-y-4">
-					<Alert>
-						<AlertTitle>Setup Required</AlertTitle>
-						<AlertDescription>
-							Wallet connection component will be placed here. This will handle MetaKey generation if needed.
-						</AlertDescription>
-					</Alert>
+    <!-- Content -->
+    {#if error}
+      <Alert variant="destructive" class="mb-4">
+        <AlertTitle>Error</AlertTitle>
+        <AlertDescription>{error}</AlertDescription>
+      </Alert>
+      <Card>
+        <CardContent class="py-8 text-center">
+          <Button class="w-full" onclick={navigateHome}>Back to Home</Button>
+        </CardContent>
+      </Card>
+    {:else if isLoading}
+      <Card>
+        <CardContent class="py-8 text-center">
+          <p class="text-muted-foreground">Loading your balance...</p>
+        </CardContent>
+      </Card>
+    {:else if currentStep === "create-metakey" && connectedAddress}
+      <MetakeyFlow
+        {connectedAddress}
+        onSuccess={handleMetakeyCreated}
+        onBack={navigateHome}
+      />
+    {:else if currentStep === "display" && connectedAddress}
+      <BalanceDisplay
+        {totalBalance}
+        {metakeyValue}
+        {connectedAddress}
+        onBack={navigateHome}
+      />
+    {:else}
+      <Card>
+        <CardContent class="py-8 text-center">
+          <p class="text-muted-foreground">No wallet connected</p>
+          <p class="text-sm text-muted-foreground mt-2">
+            Please connect a wallet using the header button
+          </p>
+        </CardContent>
+      </Card>
+    {/if}
+  </div>
 
-					{#if error}
-						<Alert variant="destructive">
-							<AlertTitle>Error</AlertTitle>
-							<AlertDescription>{error}</AlertDescription>
-						</Alert>
-					{/if}
-
-					<div class="flex gap-2">
-						<Button variant="outline" class="flex-1" onclick={handleBack}>
-							Back
-						</Button>
-						<Button class="flex-1" disabled={isLoading}>
-							{isLoading ? 'Connecting...' : 'Connect Wallet'}
-						</Button>
-					</div>
-				</CardContent>
-			</Card>
-		{:else}
-			<!-- Display balance and receiving info -->
-			<Card>
-				<CardHeader>
-					<CardTitle>Your Balance</CardTitle>
-					<CardDescription>
-						Total balance across all your addresses
-					</CardDescription>
-				</CardHeader>
-				<CardContent class="space-y-6">
-					<!-- Total Balance -->
-					<div class="p-6 bg-gradient-to-br from-primary/10 to-accent/10 rounded-lg border border-primary/20">
-						<p class="text-sm text-muted-foreground mb-2">Total Balance</p>
-						<p class="text-4xl font-bold">{totalBalance} ETH</p>
-					</div>
-
-					<!-- MetaKey Display -->
-					{#if metakeyValue}
-						<div class="space-y-3">
-							<p class="text-sm font-medium">Your MetaKey</p>
-							<div class="p-3 bg-card border border-border rounded-md font-mono text-sm break-all flex items-center justify-between">
-								<span>{metakeyValue}</span>
-								<Button
-									variant="ghost"
-									size="sm"
-									onclick={() => copyToClipboard(metakeyValue || '', 0)}
-									class="ml-2"
-								>
-									{#if copiedIndex === 0}
-										<Check size={16} />
-									{:else}
-										<Copy size={16} />
-									{/if}
-								</Button>
-							</div>
-							<p class="text-xs text-muted-foreground">
-								Share this MetaKey with others to receive payments securely.
-							</p>
-						</div>
-					{/if}
-
-					<!-- Connected Address -->
-					{#if connectedAddress}
-						<div class="space-y-3">
-							<p class="text-sm font-medium">Your Address</p>
-							<div class="p-3 bg-card border border-border rounded-md font-mono text-sm break-all flex items-center justify-between">
-								<span>{connectedAddress}</span>
-								<Button
-									variant="ghost"
-									size="sm"
-									onclick={() => copyToClipboard(connectedAddress || '', 1)}
-									class="ml-2"
-								>
-									{#if copiedIndex === 1}
-										<Check size={16} />
-									{:else}
-										<Copy size={16} />
-									{/if}
-								</Button>
-							</div>
-						</div>
-					{/if}
-
-					<Button class="w-full" onclick={handleBack}>
-						Back to Home
-					</Button>
-				</CardContent>
-			</Card>
-		{/if}
-	</div>
+  <WalletConnectModal
+    open={$walletModal}
+    onOpenChange={(open) => {
+      if (open) walletModal.open();
+      else walletModal.close();
+    }}
+    onConnect={() => {}}
+  />
 </main>
