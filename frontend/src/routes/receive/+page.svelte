@@ -1,6 +1,10 @@
 <script lang="ts">
   import { Card, CardContent } from "$lib/components/ui/card";
-  import { Alert, AlertTitle, AlertDescription } from "$lib/components/ui/alert";
+  import {
+    Alert,
+    AlertTitle,
+    AlertDescription,
+  } from "$lib/components/ui/alert";
   import { Button } from "$lib/components/ui/button";
   import PageHeader from "$lib/components/PageHeader.svelte";
   import WalletHeader from "$lib/components/WalletHeader.svelte";
