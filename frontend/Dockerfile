@@ -1,27 +1,24 @@
 # Build stage
-FROM node:22-alpine AS builder
+FROM oven/bun:latest AS builder
 
 WORKDIR /app
 
 # Copy package files
-COPY package.json yarn.lock ./
+COPY package.json bun.lock ./
 
 # Install dependencies
-RUN yarn install --frozen-lockfile
+RUN bun install --frozen-lockfile
 
 # Copy source code
 COPY . .
 
 # Build the application
-RUN yarn build
+RUN bun run build
 
 # Production stage
-FROM node:22-alpine
+FROM oven/bun:latest
 
 WORKDIR /app
-
-# Install serve to run the production build
-RUN npm install -g serve
 
 # Copy built app from builder
 COPY --from=builder /app/dist ./dist
@@ -31,5 +28,5 @@ COPY package.json ./
 
 EXPOSE 3000
 
-# Serve the dist folder
-CMD ["serve", "-s", "dist", "-l", "3000"]
+# Serve the dist folder using bun
+CMD ["bun", "run", "--", "bunx", "serve", "-s", "dist", "-l", "3000"]
