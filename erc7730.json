@@ -1,0 +1,1207 @@
+{
+    "$schema": null,
+    "context": {
+        "$id": null,
+        "contract": {
+            "deployments": [
+                {
+                    "chainId": 11155111,
+                    "address": "0x9A87d4D086cd99e20a59A2C95a0e322c01835519"
+                }
+            ],
+            "abi": [
+                {
+                    "type": "function",
+                    "name": "TOTAL_RECEIVED_DOMAIN",
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "uint256",
+                            "internalType": "uint256",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "constant": null,
+                    "payable": null,
+                    "gas": null,
+                    "signature": null
+                },
+                {
+                    "type": "function",
+                    "name": "_formatPublicInputs",
+                    "inputs": [
+                        {
+                            "name": "_amount",
+                            "type": "uint256",
+                            "internalType": "uint256",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        },
+                        {
+                            "name": "_signatureHash",
+                            "type": "bytes32",
+                            "internalType": "bytes32",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        },
+                        {
+                            "name": "_accountNoteHash",
+                            "type": "uint256",
+                            "internalType": "uint256",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        },
+                        {
+                            "name": "_accountNoteNullifier",
+                            "type": "uint256",
+                            "internalType": "uint256",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        },
+                        {
+                            "name": "_root",
+                            "type": "uint256",
+                            "internalType": "uint256",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "bytes32[]",
+                            "internalType": "bytes32[]",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "stateMutability": "pure",
+                    "constant": null,
+                    "payable": null,
+                    "gas": null,
+                    "signature": null
+                },
+                {
+                    "type": "function",
+                    "name": "_getMessageWithEthPrefix",
+                    "inputs": [
+                        {
+                            "name": "message",
+                            "type": "bytes32",
+                            "internalType": "bytes32",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "bytes",
+                            "internalType": "bytes",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "stateMutability": "pure",
+                    "constant": null,
+                    "payable": null,
+                    "gas": null,
+                    "signature": null
+                },
+                {
+                    "type": "function",
+                    "name": "allowance",
+                    "inputs": [
+                        {
+                            "name": "owner",
+                            "type": "address",
+                            "internalType": "address",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        },
+                        {
+                            "name": "spender",
+                            "type": "address",
+                            "internalType": "address",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "uint256",
+                            "internalType": "uint256",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "constant": null,
+                    "payable": null,
+                    "gas": null,
+                    "signature": null
+                },
+                {
+                    "type": "function",
+                    "name": "amountFreeTokens",
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "uint256",
+                            "internalType": "uint256",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "constant": null,
+                    "payable": null,
+                    "gas": null,
+                    "signature": null
+                },
+                {
+                    "type": "function",
+                    "name": "approve",
+                    "inputs": [
+                        {
+                            "name": "spender",
+                            "type": "address",
+                            "internalType": "address",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        },
+                        {
+                            "name": "value",
+                            "type": "uint256",
+                            "internalType": "uint256",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "bool",
+                            "internalType": "bool",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "stateMutability": "nonpayable",
+                    "constant": null,
+                    "payable": null,
+                    "gas": null,
+                    "signature": null
+                },
+                {
+                    "type": "function",
+                    "name": "balanceOf",
+                    "inputs": [
+                        {
+                            "name": "account",
+                            "type": "address",
+                            "internalType": "address",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "uint256",
+                            "internalType": "uint256",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "constant": null,
+                    "payable": null,
+                    "gas": null,
+                    "signature": null
+                },
+                {
+                    "type": "function",
+                    "name": "decimals",
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "uint8",
+                            "internalType": "uint8",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "constant": null,
+                    "payable": null,
+                    "gas": null,
+                    "signature": null
+                },
+                {
+                    "type": "function",
+                    "name": "eip712Domain",
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "fields",
+                            "type": "bytes1",
+                            "internalType": "bytes1",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        },
+                        {
+                            "name": "name",
+                            "type": "string",
+                            "internalType": "string",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        },
+                        {
+                            "name": "version",
+                            "type": "string",
+                            "internalType": "string",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        },
+                        {
+                            "name": "chainId",
+                            "type": "uint256",
+                            "internalType": "uint256",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        },
+                        {
+                            "name": "verifyingContract",
+                            "type": "address",
+                            "internalType": "address",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        },
+                        {
+                            "name": "salt",
+                            "type": "bytes32",
+                            "internalType": "bytes32",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        },
+                        {
+                            "name": "extensions",
+                            "type": "uint256[]",
+                            "internalType": "uint256[]",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "constant": null,
+                    "payable": null,
+                    "gas": null,
+                    "signature": null
+                },
+                {
+                    "type": "function",
+                    "name": "getFreeTokens",
+                    "inputs": [
+                        {
+                            "name": "_to",
+                            "type": "address",
+                            "internalType": "address",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "constant": null,
+                    "payable": null,
+                    "gas": null,
+                    "signature": null
+                },
+                {
+                    "type": "function",
+                    "name": "hashPoseidon2T3",
+                    "inputs": [
+                        {
+                            "name": "input",
+                            "type": "uint256[3]",
+                            "internalType": "uint256[3]",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "uint256",
+                            "internalType": "uint256",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "constant": null,
+                    "payable": null,
+                    "gas": null,
+                    "signature": null
+                },
+                {
+                    "type": "function",
+                    "name": "hashPoseidon2T6",
+                    "inputs": [
+                        {
+                            "name": "input",
+                            "type": "uint256[6]",
+                            "internalType": "uint256[6]",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "uint256",
+                            "internalType": "uint256",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "constant": null,
+                    "payable": null,
+                    "gas": null,
+                    "signature": null
+                },
+                {
+                    "type": "function",
+                    "name": "name",
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "string",
+                            "internalType": "string",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "constant": null,
+                    "payable": null,
+                    "gas": null,
+                    "signature": null
+                },
+                {
+                    "type": "function",
+                    "name": "nullifiers",
+                    "inputs": [
+                        {
+                            "name": "",
+                            "type": "uint256",
+                            "internalType": "uint256",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "uint256",
+                            "internalType": "uint256",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "constant": null,
+                    "payable": null,
+                    "gas": null,
+                    "signature": null
+                },
+                {
+                    "type": "function",
+                    "name": "privateTransfer",
+                    "inputs": [
+                        {
+                            "name": "_amount",
+                            "type": "uint256",
+                            "internalType": "uint256",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        },
+                        {
+                            "name": "_to",
+                            "type": "address",
+                            "internalType": "address",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        },
+                        {
+                            "name": "_feeData",
+                            "type": "tuple",
+                            "internalType": "struct FeeData",
+                            "components": [
+                                {
+                                    "name": "relayerAddress",
+                                    "type": "address",
+                                    "internalType": "address",
+                                    "components": null
+                                },
+                                {
+                                    "name": "priorityFee",
+                                    "type": "uint256",
+                                    "internalType": "uint256",
+                                    "components": null
+                                },
+                                {
+                                    "name": "conversionRate",
+                                    "type": "uint256",
+                                    "internalType": "uint256",
+                                    "components": null
+                                },
+                                {
+                                    "name": "maxFee",
+                                    "type": "uint256",
+                                    "internalType": "uint256",
+                                    "components": null
+                                },
+                                {
+                                    "name": "feeToken",
+                                    "type": "address",
+                                    "internalType": "address",
+                                    "components": null
+                                }
+                            ],
+                            "indexed": null,
+                            "unit": null
+                        },
+                        {
+                            "name": "_accountNoteHash",
+                            "type": "uint256",
+                            "internalType": "uint256",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        },
+                        {
+                            "name": "_accountNoteNullifier",
+                            "type": "uint256",
+                            "internalType": "uint256",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        },
+                        {
+                            "name": "_root",
+                            "type": "uint256",
+                            "internalType": "uint256",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        },
+                        {
+                            "name": "_snarkProof",
+                            "type": "bytes",
+                            "internalType": "bytes",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "constant": null,
+                    "payable": null,
+                    "gas": null,
+                    "signature": null
+                },
+                {
+                    "type": "function",
+                    "name": "privateTransferVerifier",
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "address",
+                            "internalType": "address",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "constant": null,
+                    "payable": null,
+                    "gas": null,
+                    "signature": null
+                },
+                {
+                    "type": "function",
+                    "name": "root",
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "uint256",
+                            "internalType": "uint256",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "constant": null,
+                    "payable": null,
+                    "gas": null,
+                    "signature": null
+                },
+                {
+                    "type": "function",
+                    "name": "roots",
+                    "inputs": [
+                        {
+                            "name": "",
+                            "type": "uint256",
+                            "internalType": "uint256",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "bool",
+                            "internalType": "bool",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "constant": null,
+                    "payable": null,
+                    "gas": null,
+                    "signature": null
+                },
+                {
+                    "type": "function",
+                    "name": "symbol",
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "string",
+                            "internalType": "string",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "constant": null,
+                    "payable": null,
+                    "gas": null,
+                    "signature": null
+                },
+                {
+                    "type": "function",
+                    "name": "totalSupply",
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "uint256",
+                            "internalType": "uint256",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "constant": null,
+                    "payable": null,
+                    "gas": null,
+                    "signature": null
+                },
+                {
+                    "type": "function",
+                    "name": "transfer",
+                    "inputs": [
+                        {
+                            "name": "to",
+                            "type": "address",
+                            "internalType": "address",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        },
+                        {
+                            "name": "value",
+                            "type": "uint256",
+                            "internalType": "uint256",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "bool",
+                            "internalType": "bool",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "stateMutability": "nonpayable",
+                    "constant": null,
+                    "payable": null,
+                    "gas": null,
+                    "signature": null
+                },
+                {
+                    "type": "function",
+                    "name": "transferFrom",
+                    "inputs": [
+                        {
+                            "name": "from",
+                            "type": "address",
+                            "internalType": "address",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        },
+                        {
+                            "name": "to",
+                            "type": "address",
+                            "internalType": "address",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        },
+                        {
+                            "name": "value",
+                            "type": "uint256",
+                            "internalType": "uint256",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "bool",
+                            "internalType": "bool",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "stateMutability": "nonpayable",
+                    "constant": null,
+                    "payable": null,
+                    "gas": null,
+                    "signature": null
+                },
+                {
+                    "type": "function",
+                    "name": "tree",
+                    "inputs": [],
+                    "outputs": [
+                        {
+                            "name": "size",
+                            "type": "uint256",
+                            "internalType": "uint256",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        },
+                        {
+                            "name": "depth",
+                            "type": "uint256",
+                            "internalType": "uint256",
+                            "components": null,
+                            "indexed": null,
+                            "unit": null
+                        }
+                    ],
+                    "stateMutability": "view",
+                    "constant": null,
+                    "payable": null,
+                    "gas": null,
+                    "signature": null
+                }
+            ],
+            "addressMatcher": null,
+            "factory": null
+        }
+    },
+    "metadata": {
+        "owner": null,
+        "info": null,
+        "token": null,
+        "constants": null,
+        "enums": null
+    },
+    "display": {
+        "definitions": null,
+        "formats": {
+            "_formatPublicInputs(uint256,bytes32,uint256,uint256,uint256)": {
+                "$id": null,
+                "intent": null,
+                "screens": null,
+                "fields": [
+                    {
+                        "$id": null,
+                        "label": "Amount",
+                        "format": "amount",
+                        "params": null,
+                        "path": "#._amount",
+                        "value": null
+                    },
+                    {
+                        "$id": null,
+                        "label": "Signature Hash",
+                        "format": "raw",
+                        "params": null,
+                        "path": "#._signatureHash",
+                        "value": null
+                    },
+                    {
+                        "$id": null,
+                        "label": "Account Note Hash",
+                        "format": "raw",
+                        "params": null,
+                        "path": "#._accountNoteHash",
+                        "value": null
+                    },
+                    {
+                        "$id": null,
+                        "label": "Account Note Nullifier",
+                        "format": "raw",
+                        "params": null,
+                        "path": "#._accountNoteNullifier",
+                        "value": null
+                    },
+                    {
+                        "$id": null,
+                        "label": "Root",
+                        "format": "raw",
+                        "params": null,
+                        "path": "#._root",
+                        "value": null
+                    }
+                ],
+                "required": null,
+                "excluded": null
+            },
+            "_getMessageWithEthPrefix(bytes32)": {
+                "$id": null,
+                "intent": null,
+                "screens": null,
+                "fields": [
+                    {
+                        "$id": null,
+                        "label": "Message",
+                        "format": "raw",
+                        "params": null,
+                        "path": "#.message",
+                        "value": null
+                    }
+                ],
+                "required": null,
+                "excluded": null
+            },
+            "allowance(address,address)": {
+                "$id": null,
+                "intent": null,
+                "screens": null,
+                "fields": [
+                    {
+                        "$id": null,
+                        "label": "Owner",
+                        "format": "addressName",
+                        "params": {
+                            "types": [
+                                "eoa",
+                                "wallet"
+                            ],
+                            "sources": null
+                        },
+                        "path": "#.owner",
+                        "value": null
+                    },
+                    {
+                        "$id": null,
+                        "label": "Spender",
+                        "format": "addressName",
+                        "params": {
+                            "types": [
+                                "contract"
+                            ],
+                            "sources": null
+                        },
+                        "path": "#.spender",
+                        "value": null
+                    }
+                ],
+                "required": null,
+                "excluded": null
+            },
+            "approve(address,uint256)": {
+                "$id": null,
+                "intent": null,
+                "screens": null,
+                "fields": [
+                    {
+                        "$id": null,
+                        "label": "Spender",
+                        "format": "addressName",
+                        "params": {
+                            "types": [
+                                "contract"
+                            ],
+                            "sources": null
+                        },
+                        "path": "#.spender",
+                        "value": null
+                    },
+                    {
+                        "$id": null,
+                        "label": "Value",
+                        "format": "amount",
+                        "params": null,
+                        "path": "#.value",
+                        "value": null
+                    }
+                ],
+                "required": null,
+                "excluded": null
+            },
+            "balanceOf(address)": {
+                "$id": null,
+                "intent": null,
+                "screens": null,
+                "fields": [
+                    {
+                        "$id": null,
+                        "label": "Account",
+                        "format": "addressName",
+                        "params": {
+                            "types": [
+                                "eoa",
+                                "wallet"
+                            ],
+                            "sources": null
+                        },
+                        "path": "#.account",
+                        "value": null
+                    }
+                ],
+                "required": null,
+                "excluded": null
+            },
+            "getFreeTokens(address)": {
+                "$id": null,
+                "intent": null,
+                "screens": null,
+                "fields": [
+                    {
+                        "$id": null,
+                        "label": "To",
+                        "format": "addressName",
+                        "params": {
+                            "types": [
+                                "eoa",
+                                "wallet"
+                            ],
+                            "sources": null
+                        },
+                        "path": "#._to",
+                        "value": null
+                    }
+                ],
+                "required": null,
+                "excluded": null
+            },
+            "hashPoseidon2T3(uint256[3])": {
+                "$id": null,
+                "intent": null,
+                "screens": null,
+                "fields": [
+                    {
+                        "$id": null,
+                        "label": "Input",
+                        "format": "raw",
+                        "params": null,
+                        "path": "#.input.[]",
+                        "value": null
+                    }
+                ],
+                "required": null,
+                "excluded": null
+            },
+            "hashPoseidon2T6(uint256[6])": {
+                "$id": null,
+                "intent": null,
+                "screens": null,
+                "fields": [
+                    {
+                        "$id": null,
+                        "label": "Input",
+                        "format": "raw",
+                        "params": null,
+                        "path": "#.input.[]",
+                        "value": null
+                    }
+                ],
+                "required": null,
+                "excluded": null
+            },
+            "privateTransfer(uint256,address,(address,uint256,uint256,uint256,address),uint256,uint256,uint256,bytes)": {
+                "$id": null,
+                "intent": null,
+                "screens": null,
+                "fields": [
+                    {
+                        "$id": null,
+                        "label": "Amount",
+                        "format": "amount",
+                        "params": null,
+                        "path": "#._amount",
+                        "value": null
+                    },
+                    {
+                        "$id": null,
+                        "label": "To",
+                        "format": "addressName",
+                        "params": {
+                            "types": [
+                                "eoa",
+                                "wallet"
+                            ],
+                            "sources": null
+                        },
+                        "path": "#._to",
+                        "value": null
+                    },
+                    {
+                        "path": "#._feeData",
+                        "value": null,
+                        "fields": [
+                            {
+                                "$id": null,
+                                "label": "Relayer Address",
+                                "format": "addressName",
+                                "params": {
+                                    "types": [
+                                        "wallet",
+                                        "eoa",
+                                        "contract",
+                                        "token",
+                                        "collection"
+                                    ],
+                                    "sources": null
+                                },
+                                "path": "relayerAddress",
+                                "value": null
+                            },
+                            {
+                                "$id": null,
+                                "label": "Priority Fee",
+                                "format": "raw",
+                                "params": null,
+                                "path": "priorityFee",
+                                "value": null
+                            },
+                            {
+                                "$id": null,
+                                "label": "Conversion Rate",
+                                "format": "raw",
+                                "params": null,
+                                "path": "conversionRate",
+                                "value": null
+                            },
+                            {
+                                "$id": null,
+                                "label": "Max Fee",
+                                "format": "raw",
+                                "params": null,
+                                "path": "maxFee",
+                                "value": null
+                            },
+                            {
+                                "$id": null,
+                                "label": "Fee Token",
+                                "format": "addressName",
+                                "params": {
+                                    "types": [
+                                        "token"
+                                    ],
+                                    "sources": null
+                                },
+                                "path": "feeToken",
+                                "value": null
+                            }
+                        ]
+                    },
+                    {
+                        "$id": null,
+                        "label": "Account Note Hash",
+                        "format": "raw",
+                        "params": null,
+                        "path": "#._accountNoteHash",
+                        "value": null
+                    },
+                    {
+                        "$id": null,
+                        "label": "Account Note Nullifier",
+                        "format": "raw",
+                        "params": null,
+                        "path": "#._accountNoteNullifier",
+                        "value": null
+                    },
+                    {
+                        "$id": null,
+                        "label": "Root",
+                        "format": "raw",
+                        "params": null,
+                        "path": "#._root",
+                        "value": null
+                    },
+                    {
+                        "$id": null,
+                        "label": "Snark Proof",
+                        "format": "raw",
+                        "params": null,
+                        "path": "#._snarkProof",
+                        "value": null
+                    }
+                ],
+                "required": null,
+                "excluded": null
+            },
+            "transfer(address,uint256)": {
+                "$id": null,
+                "intent": null,
+                "screens": null,
+                "fields": [
+                    {
+                        "$id": null,
+                        "label": "To",
+                        "format": "addressName",
+                        "params": {
+                            "types": [
+                                "eoa",
+                                "wallet"
+                            ],
+                            "sources": null
+                        },
+                        "path": "#.to",
+                        "value": null
+                    },
+                    {
+                        "$id": null,
+                        "label": "Value",
+                        "format": "amount",
+                        "params": null,
+                        "path": "#.value",
+                        "value": null
+                    }
+                ],
+                "required": null,
+                "excluded": null
+            },
+            "transferFrom(address,address,uint256)": {
+                "$id": null,
+                "intent": null,
+                "screens": null,
+                "fields": [
+                    {
+                        "$id": null,
+                        "label": "From",
+                        "format": "addressName",
+                        "params": {
+                            "types": [
+                                "eoa",
+                                "wallet"
+                            ],
+                            "sources": null
+                        },
+                        "path": "#.from",
+                        "value": null
+                    },
+                    {
+                        "$id": null,
+                        "label": "To",
+                        "format": "addressName",
+                        "params": {
+                            "types": [
+                                "eoa",
+                                "wallet"
+                            ],
+                            "sources": null
+                        },
+                        "path": "#.to",
+                        "value": null
+                    },
+                    {
+                        "$id": null,
+                        "label": "Value",
+                        "format": "amount",
+                        "params": null,
+                        "path": "#.value",
+                        "value": null
+                    }
+                ],
+                "required": null,
+                "excluded": null
+            }
+        }
+    }
+}
